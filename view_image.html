@@ -18,17 +18,24 @@
 </head>
 <script>
 
-var websocket = new WebSocket("ws://127.0.0.1:6789/");
+var websocket = new WebSocket("ws://192.168.19.190:6789/");
 websocket.onmessage = function (event)
 {
-  new_picture=JSON.parse(even.data);
-  document.getElementById('theImage').src="watcher_images/"+new_picture;  
+  new_picture=event.data;
+  console.log('rx images');
+  console.log(event.data);
+  //document.getElementById('theImage').src="images/"+new_picture;
+  document.getElementById('theImage').src="data:image/png;base64, "+new_picture;
+}
+function register()
+{
+  websocket.send("register_client");
 }
 </script>
 <body>
 <div class="imgbox">
-  <img id="theImage" class="center-fit" src="watcher_images/migo.png">
+  <img id="theImage" class="center-fit" src="">
 </div>
-<p><input type="button" id="theButton" value="click me!" onclick="pictureChange()"></p>
+<p><input type="button" id="theButton" value="Start!" onclick="register()"></p>
 </body>
 </html>
