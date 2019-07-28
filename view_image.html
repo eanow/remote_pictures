@@ -14,28 +14,54 @@
             max-height: 100vh;
             margin: auto;
         }
+        .mini
+        {
+          max-height:0vh;
+
+        }
+        .block {
+          display: block;
+          width: 100%;
+          border: none;
+          background-color: #4CAF50;
+          color: white;
+          padding: 14px 28px;
+          font-size: 32px;
+          cursor: pointer;
+          text-align: center;
+        }
+
+        .block:hover {
+          background-color: #ddd;
+          color: black;
+        }
     </style>
 </head>
 <script>
 
 var websocket = new WebSocket("ws://192.168.19.190:6789/");
+var connected = false;
 websocket.onmessage = function (event)
 {
   new_picture=event.data;
   console.log('rx images');
   console.log(event.data);
   //document.getElementById('theImage').src="images/"+new_picture;
+
   document.getElementById('theImage').src="data:image/png;base64, "+new_picture;
 }
 function register()
 {
+  document.getElementById('theImage').className="center-fit";
+  document.getElementById('img_view').className="imgbox";
   websocket.send("register_client");
+  setInterval(function(){websocket.send("register_client");},5000);
 }
 </script>
 <body>
-<div class="imgbox">
-  <img id="theImage" class="center-fit" src="">
+<div id="img_view" class="mini">
+  <img id="theImage" class="mini" src="">
 </div>
-<p><input type="button" id="theButton" value="Start!" onclick="register()"></p>
+<p><input type=button class=block id=theButton value="Start!" onclick="register()"></p>
 </body>
 </html>

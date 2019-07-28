@@ -1,6 +1,24 @@
+<!DOCTYPE html>
 <html>
 <head>
+  <style>
+  .block {
+    display: block;
+    width: 100%;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 28px;
+    font-size: 32px;
+    cursor: pointer;
+    text-align: center;
+  }
 
+  .block:hover {
+    background-color: #ddd;
+    color: black;
+  }
+  </style>
 </head>
 <script>
 
@@ -8,18 +26,11 @@ var websocket = new WebSocket("ws://192.168.19.190:6789/");
 websocket.onmessage = function (event)
 {
   picture_list=JSON.parse(event.data);
-  newHTML="";
+  newHTML="<br/>";
   for (var i=0;i<picture_list.length; i++)
   {
     console.log(picture_list[i]);
-    newHTML=newHTML+"<button id=\""+picture_list[i]+"\">"+picture_list[i]+"</button>";
-    //placement=document.getElementById("pictures");
-    //new_button=document.createElement("button");
-    //new_button.textContent=picture_list[i];
-    //new_button.id=picture_list[i];
-    //placement.appendChild(new_button);
-    //document.getElementById(picture_list[i]).onClick=function(){switch_picture(this.id)}
-
+    newHTML=newHTML+"<input type=\"button\" class=block id="+picture_list[i]+" value=\""+picture_list[i].replace(".png","")+"\"><br/>";
   }
   document.querySelector("#pictures").addEventListener('click', function(e){switch_picture(e.target.id);});
   document.querySelector("#pictures").innerHTML=newHTML
@@ -36,7 +47,7 @@ function switch_picture(new_pic)
 }
 </script>
 <body>
-<input type="button" id=get_images value="Get Image List" onclick="fetch_images()">
+<input type="button" class=block id=get_images value="Get Image List" onclick="fetch_images()">
 <div id="pictures"></div>
 </body>
 </html>

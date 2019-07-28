@@ -37,6 +37,7 @@ async def change_image(message):
 
 async def register(websocket):
     USERS.add(websocket)
+    print(USERS)
     #await notify_users()
 
 
